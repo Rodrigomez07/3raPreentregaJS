@@ -1,16 +1,8 @@
 import { productos } from './productos.js';
 
+const containerCards = document.querySelector(".container-cards");
+const feedbackMessage = document.getElementById("feedback-message");
 const productosCarrito = JSON.parse(localStorage.getItem("productos")) || [];
-
-function showFeedbackMessage(message, type = "success") {
-    Toastify({
-        text: message,
-        className: type,
-        style: {
-            background: type === "success" ? "linear-gradient(to right, #00b09b, #96c93d)" : "#ff4136",
-        }
-    }).showToast();
-}
 
 function updateCartTotal() {
     const totalElement = document.querySelector(".cart-total");
@@ -18,9 +10,17 @@ function updateCartTotal() {
     totalElement.textContent = `Total: $${total.toFixed(2)}`;
 }
 
-function generateProductCards(array) {
-    const containerCards = document.querySelector(".container-cards");
+function showFeedbackMessage(message, type = "success") {
+    feedbackMessage.textContent = message;
+    feedbackMessage.classList.add(type);
 
+    setTimeout(() => {
+        feedbackMessage.textContent = "";
+        feedbackMessage.classList.remove(type);
+    }, 3000);
+}
+
+function generateProductCards(array) {
     const cards = array.map(element => `
         <div class="card" id="card-${element.id}">
             <h2>${element.producto}</h2>
@@ -47,7 +47,7 @@ function generateProductCards(array) {
             if (!productosCarrito.some(producto => producto.id === Number(id))) {
                 productosCarrito.push(buscarProducto);
                 localStorage.setItem("productos", JSON.stringify(productosCarrito));
-                showFeedbackMessage(`Se ha añadido ${buscarProducto.producto} al carrito de compras.`);
+                showFeedbackMessage(`Se ha añadido ${buscarProducto.producto} al carrito de compras.`, "success");
                 updateCartTotal();
             } else {
                 showFeedbackMessage(`El producto ya está en el carrito.`, "error");
@@ -56,8 +56,6 @@ function generateProductCards(array) {
     });
 }
 
-function loadInitialProducts() {
+window.addEventListener("load", () => {
     generateProductCards(productos);
-}
-
-window.addEventListener("load", loadInitialProducts);
+});

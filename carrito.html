@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Carrito de Compras</title>
     <link rel="stylesheet" href="style.css">
-    
 </head>
 <body>
     <nav>
@@ -22,13 +21,14 @@
             </li>
         </ul>
     </nav>
-
     <h1>Carrito de Compras</h1>
-    <div class="container-cards">
+    <div class="container-cards" id="cart-items">
         
     </div>
     <p class="cart-total">Total: $0.00</p>
-    
+    <button id="empty-cart-button" class="button-card empty-cart-button">Vaciar Carrito</button>
+    <p id="feedback-message"></p>
     <script type="module" src="carrito.js"></script>
 </body>
 </html>
+
